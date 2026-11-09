@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trainer Industriekaufleute</title>
+<script>try{var t=localStorage.getItem('portal.thema')||'';var q=(location.search.match(/[?&]design=([a-z]*)/)||[])[1];if(q!=null)t=q;if(t)document.documentElement.setAttribute('data-thema',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papier:#F1F3EF; --karte:#FFFFFF; --tinte:#16212B; --tinte2:#48565F; --stumm:#7A8891;
+  --linie:#DCE1D8; --linie2:#EEF0EA;
+  --soll:#14606B; --soll-bg:#E7F0F1; --haben:#5B4A9E; --haben-bg:#EDEAF7;
+  --moos:#2C6A4E; --moos-bg:#E6F1EA; --gelb:#87680F; --gelb-bg:#FBF3DC; --rot:#AE3A2C;
+  --akzent:#14606B; --r:6px;
+  --schrift:'IBM Plex Sans',system-ui,sans-serif; --serif:'IBM Plex Serif',Georgia,serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+:root[data-thema="nacht"]{
+  --papier:#0E1330; --karte:#171E45; --tinte:#EEF1FF; --tinte2:#B4BDE6; --stumm:#7F89BD; --linie:#2D3772; --linie2:#1F275A;
+  --soll:#22D3EE; --soll-bg:#0E3A50; --haben:#F472B6; --haben-bg:#47204C; --moos:#4ADE80; --moos-bg:#123B2C; --gelb:#FACC15; --gelb-bg:#3D3412; --rot:#FF7A7A;
+  --akzent:#22D3EE; --r:10px; --schrift:'Space Grotesk',system-ui,sans-serif; --serif:'Space Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace; color-scheme:dark;
+}
+:root[data-thema="marker"]{
+  --papier:#FFFDF5; --karte:#FFFFFF; --tinte:#1A1A1A; --tinte2:#3D3D3D; --stumm:#6B6B6B; --linie:#1A1A1A; --linie2:#F1EEE2;
+  --soll:#0057FF; --soll-bg:#E3ECFF; --haben:#E5007E; --haben-bg:#FFE3F2; --moos:#00875A; --moos-bg:#DDF6EA; --gelb:#8A6A00; --gelb-bg:#FFF4B8; --rot:#D7261E;
+  --akzent:#0057FF; --r:10px; --schrift:'Archivo',system-ui,sans-serif; --serif:'Archivo Black','Archivo',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+}
+:root[data-thema="lagune"]{
+  --papier:#EEF6FB; --karte:#FFFFFF; --tinte:#0B2540; --tinte2:#3F5A75; --stumm:#7890A8; --linie:#D3E3EF; --linie2:#E8F1F8;
+  --soll:#0284C7; --soll-bg:#E0F2FE; --haben:#7C3AED; --haben-bg:#EDE9FE; --moos:#059669; --moos-bg:#D1FAE5; --gelb:#B45309; --gelb-bg:#FEF3C7; --rot:#E11D48;
+  --akzent:#0284C7; --r:14px; --schrift:'Nunito',system-ui,sans-serif; --serif:'Nunito',system-ui,sans-serif;
+}
+:root[data-thema="traube"]{
+  --papier:#F6F3FF; --karte:#FFFFFF; --tinte:#1E1338; --tinte2:#4B3F6B; --stumm:#8A80A8; --linie:#E2DAF7; --linie2:#EFEAFB;
+  --soll:#6D28D9; --soll-bg:#EDE7FE; --haben:#DB2777; --haben-bg:#FCE7F3; --moos:#15803D; --moos-bg:#DCFCE7; --gelb:#A16207; --gelb-bg:#FEF9C3; --rot:#DC2626;
+  --akzent:#6D28D9; --r:12px; --schrift:'Outfit',system-ui,sans-serif; --serif:'Outfit',system-ui,sans-serif;
+}
+:root[data-thema="klar"]{
+  --papier:#FFFFFF; --karte:#FFFFFF; --tinte:#000; --tinte2:#1F1F1F; --stumm:#4A4A4A; --linie:#5C5C5C; --linie2:#EDEDED;
+  --soll:#0040FF; --soll-bg:#E6ECFF; --haben:#A0005A; --haben-bg:#FBE6F1; --moos:#00602A; --moos-bg:#E0F2E6; --gelb:#7A4F00; --gelb-bg:#FFF1CC; --rot:#B00000;
+  --akzent:#0040FF; --r:4px; --schrift:'Atkinson Hyperlegible',system-ui,sans-serif; --serif:'Atkinson Hyperlegible',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--papier); color:var(--tinte); font-family:var(--schrift); font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif); font-weight:600; margin:0; letter-spacing:-.01em}
+button{font:inherit; cursor:pointer}
+a{color:inherit}
+
+.kopf{background:var(--karte); border-bottom:1px solid var(--linie)}
+.kopf-innen{max-width:1080px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:16px}
+.logo{width:38px; height:38px; flex:none; border-radius:var(--r); background:var(--soll); color:var(--karte); display:grid; place-items:center}
+.marke h1{font-size:1.25rem; line-height:1.2}
+.marke p{margin:0; font-size:.82rem; color:var(--stumm)}
+.kopf .platz{flex:1}
+.design-knopf{display:inline-flex; align-items:center; gap:.45rem; background:none; border:1px solid var(--linie); border-radius:999px; padding:.3rem .75rem .3rem .45rem; font-size:.8rem; color:var(--tinte2)}
+.design-knopf:hover{border-color:var(--tinte2); color:var(--tinte)}
+.tupfen{display:inline-flex}
+.tupfen i{width:11px; height:11px; border-radius:50%; margin-right:-3px; border:1.5px solid var(--karte)}
+
+main{max-width:1080px; margin:0 auto; padding:28px 20px 48px}
+.augenbraue{font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--stumm); display:flex; align-items:center; gap:.6rem; margin:0 0 12px}
+.augenbraue::after{content:''; flex:1; height:1px; background:var(--linie)}
+.augenbraue b{display:inline-grid; place-items:center; width:1.5rem; height:1.5rem; border-radius:50%; background:var(--tinte); color:var(--karte); font-weight:600; letter-spacing:0}
+
+.berufe{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; margin-bottom:36px}
+.beruf{position:relative; text-align:left; background:var(--karte); border:1.5px solid var(--linie); border-radius:calc(var(--r) + 4px); padding:16px 16px 14px; color:var(--tinte); transition:border-color .15s, transform .15s, box-shadow .15s; display:flex; flex-direction:column; gap:10px; min-height:132px}
+.beruf:hover:not(:disabled){border-color:var(--tinte2); transform:translateY(-1px)}
+.beruf .sym{flex:none; width:34px; height:34px; border-radius:var(--r); background:var(--linie2); color:var(--tinte2); display:grid; place-items:center}
+.beruf .name{font-weight:600; line-height:1.3; hyphens:manual; overflow-wrap:break-word}
+.beruf .info{font-size:.78rem; color:var(--stumm); margin-top:auto}
+.beruf[aria-pressed="true"]{border-color:var(--akzent); box-shadow:0 0 0 3px color-mix(in srgb, var(--akzent) 18%, transparent)}
+.beruf[aria-pressed="true"] .sym{background:var(--akzent); color:var(--karte)}
+.beruf[aria-pressed="true"]::after{content:'✓'; position:absolute; top:12px; right:14px; font-weight:700; color:var(--akzent)}
+.beruf:disabled{opacity:.55; cursor:default; border-style:dashed}
+.beruf:focus-visible,.anw-knopf:focus-visible,.design-knopf:focus-visible{outline:3px solid var(--akzent); outline-offset:2px}
+
+.anw-kopf{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:-2px 0 14px}
+.anw-kopf h2{font-size:1.35rem}
+.anw-kopf .link{font-size:.8rem; color:var(--stumm)}
+.anw-kopf .link button{background:none; border:0; padding:0; color:var(--akzent); text-decoration:underline; text-underline-offset:2px}
+.anwendungen{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px}
+.anw{--f:var(--soll); --fbg:var(--soll-bg); background:var(--karte); border:1px solid var(--linie); border-radius:calc(var(--r) + 4px); overflow:hidden; display:flex; flex-direction:column}
+.anw.klr{--f:var(--haben); --fbg:var(--haben-bg)}
+.anw.if{--f:var(--moos); --fbg:var(--moos-bg)}
+.anw.bl{--f:var(--gelb); --fbg:var(--gelb-bg)}
+.anw.vw{--f:var(--rot); --fbg:color-mix(in srgb, var(--rot) 12%, var(--karte))}
+.anw-band{height:5px; background:var(--f)}
+.anw-inhalt{padding:18px 18px 16px; display:flex; flex-direction:column; gap:12px; flex:1}
+.anw-titel{display:flex; gap:12px; align-items:flex-start}
+.anw-titel .sym{width:42px; height:42px; flex:none; border-radius:var(--r); background:var(--fbg); color:var(--f); display:grid; place-items:center}
+.anw-titel h3{font-size:1.08rem; line-height:1.25}
+.anw-titel .fach{font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--f); margin-bottom:2px}
+.anw p{margin:0; color:var(--tinte2); font-size:.88rem}
+.themen{display:flex; flex-wrap:wrap; gap:6px}
+.themen span{font-size:.72rem; padding:.15rem .5rem; border-radius:999px; background:var(--linie2); color:var(--tinte2)}
+.zahlen{display:flex; gap:16px; font-family:var(--mono); font-size:.76rem; color:var(--stumm)}
+.zahlen b{color:var(--tinte); font-weight:600}
+.stand{font-size:.78rem; color:var(--stumm); display:flex; flex-direction:column; gap:5px}
+.balken{height:6px; border-radius:99px; background:var(--linie2); overflow:hidden}
+.balken i{display:block; height:100%; background:var(--f); border-radius:99px}
+.stand-werte{display:grid; grid-template-columns:repeat(3,1fr); gap:6px; font-family:var(--mono); font-size:.7rem; color:var(--stumm); text-align:center}
+.stand-werte div{background:var(--linie2); border-radius:var(--r); padding:6px 4px}
+.stand-werte b{display:block; font-size:.95rem; color:var(--tinte); font-weight:600}
+.stand-zuletzt{font-size:.74rem; color:var(--stumm)}
+.bilanz{background:var(--karte); border:1px solid var(--linie); border-radius:calc(var(--r) + 4px); padding:14px 16px; margin:0 0 16px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.bilanz .k{font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--stumm)}
+.bilanz .w{font-size:1.35rem; font-weight:700; color:var(--tinte); line-height:1.2; margin-top:2px}
+.bilanz .u{font-size:.76rem; color:var(--tinte2)}
+.bilanz-leer{font-size:.84rem; color:var(--stumm); margin:0 0 16px; padding:10px 14px; border:1px dashed var(--linie); border-radius:calc(var(--r) + 4px)}
+@media (max-width:700px){.bilanz{grid-template-columns:repeat(2,1fr)}}
+.anw-fuss{margin-top:auto; padding-top:4px}
+.anw-knopf{display:flex; align-items:center; justify-content:center; gap:.5rem; width:100%; text-decoration:none; background:var(--tinte); color:var(--karte); border-radius:var(--r); padding:.65rem 1rem; font-weight:600; font-size:.9rem; transition:background .15s}
+.anw-knopf:hover{background:var(--f)}
+.anw-knopf span{transition:transform .15s}
+.anw-knopf:hover span{transform:translateX(3px)}
+
+.leer{background:var(--karte); border:1.5px dashed var(--linie); border-radius:calc(var(--r) + 4px); padding:28px; text-align:center; color:var(--stumm)}
+.fuss{max-width:1080px; margin:0 auto; padding:0 20px 32px; font-size:.78rem; color:var(--stumm); display:flex; gap:8px; align-items:flex-start}
+.fuss svg{flex:none; margin-top:2px}
+
+/* Design-Auswahl */
+.design-dlg{border:1px solid var(--linie); border-radius:calc(var(--r) + 4px); padding:0; background:var(--karte); color:var(--tinte); width:min(420px, calc(100vw - 32px))}
+.design-dlg::backdrop{background:rgba(10,15,25,.45)}
+.design-dlg form{padding:18px}
+.design-dlg h3{font-size:1.05rem; margin-bottom:12px}
+.design-liste{display:grid; gap:8px}
+.design-opt{display:flex; align-items:center; gap:12px; text-align:left; background:none; border:1.5px solid var(--linie); border-radius:var(--r); padding:10px 12px; color:var(--tinte)}
+.design-opt:hover{border-color:var(--tinte2)}
+.design-opt.aktiv{border-color:var(--akzent)}
+.design-opt small{display:block; color:var(--stumm); font-size:.76rem}
+.design-opt .tupfen i{width:16px; height:16px}
+.design-dlg .zu{margin-top:14px; width:100%; background:var(--linie2); border:0; border-radius:var(--r); padding:.55rem; color:var(--tinte)}
+
+/* Designs: Feinheiten wie in den Trainern */
+[data-thema="nacht"] .kopf{background:#0B1028}
+[data-thema="nacht"] .logo{background:linear-gradient(135deg,#22D3EE,#A78BFA); color:#0E1330}
+[data-thema="nacht"] .anw-knopf{background:linear-gradient(90deg,#22D3EE,#A78BFA); color:#0E1330}
+[data-thema="nacht"] .anw,[data-thema="nacht"] .beruf{box-shadow:0 10px 30px rgba(0,0,0,.3)}
+[data-thema="marker"] .kopf{border-bottom:2px solid #1A1A1A}
+[data-thema="marker"] .anw,[data-thema="marker"] .beruf{border:2px solid #1A1A1A; box-shadow:5px 5px 0 #1A1A1A}
+[data-thema="marker"] .anw-knopf{background:#FFE14D; color:#1A1A1A; border:2px solid #1A1A1A}
+[data-thema="marker"] .marke h1{background:linear-gradient(transparent 55%, #FFE14D 55%); display:inline; font-weight:400}
+[data-thema="lagune"] .kopf{background:linear-gradient(100deg,#0369A1,#06B6D4); border-bottom:0}
+[data-thema="lagune"] .marke h1,[data-thema="lagune"] .marke p{color:#fff}
+[data-thema="lagune"] .logo{background:#fff; color:#0369A1}
+[data-thema="lagune"] .kopf .design-knopf{color:#fff; border-color:rgba(255,255,255,.6)}
+[data-thema="lagune"] .anw,[data-thema="lagune"] .beruf{border-color:transparent; box-shadow:0 6px 20px rgba(2,132,199,.1)}
+[data-thema="lagune"] .anw-knopf{border-radius:999px; background:linear-gradient(90deg,#0284C7,#06B6D4)}
+[data-thema="lagune"] h1,[data-thema="lagune"] h2,[data-thema="lagune"] h3{font-weight:800}
+[data-thema="traube"] .kopf{background:#1E1338; border-bottom:0}
+[data-thema="traube"] .marke h1{color:#fff}
+[data-thema="traube"] .marke p{color:#B9AEDB}
+[data-thema="traube"] .logo{background:#A3E635; color:#1E1338}
+[data-thema="traube"] .kopf .design-knopf{color:#D9CFF5; border-color:#4B3F6B}
+[data-thema="traube"] .anw-knopf{background:#1E1338}
+[data-thema="traube"] .anw-knopf:hover{background:#A3E635; color:#1E1338}
+[data-thema="klar"] body{font-size:16.5px}
+[data-thema="klar"] .anw,[data-thema="klar"] .beruf{border:1.5px solid #000}
+
+@media (max-width:600px){
+  .kopf-innen{padding:12px 16px}
+  .marke p{display:none}
+  .design-knopf .txt{display:none}
+  main{padding:20px 16px 36px}
+  .berufe{grid-template-columns:1fr; gap:8px}
+  .beruf{min-height:0; padding:10px 36px 10px 12px; flex-direction:row; align-items:center; gap:12px}
+  .beruf[aria-pressed="true"]::after{top:50%; transform:translateY(-50%)}
+  .beruf .info{display:none}
+  .anwendungen{grid-template-columns:1fr}
+  .fuss{padding:0 16px 28px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+[hidden]{display:none !important}
+.anw.bald{opacity:.55}
+.anw.bald .anw-band{filter:grayscale(1)}
+.anw-bald{font-size:.82rem; color:var(--stumm); font-family:var(--mono)}
+</style>
+</head>
+<body>
+<header class="kopf"><div class="kopf-innen">
+  <div class="logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 7h14M5 7l-2.5 6a3 3 0 0 0 5 0L5 7zm14 0-2.5 6a3 3 0 0 0 5 0L19 7zM8 21h8"/></svg></div>
+  <div class="marke"><h1>Trainer Industriekaufleute</h1><p>Üben nach Lernfeldern</p></div>
+  <div class="platz"></div>
+  <button class="design-knopf" id="design-knopf" onclick="designOeffnen()" aria-haspopup="dialog"><span class="tupfen" id="design-tupfen"></span><span class="txt">Design</span></button>
+</div></header>
+
+<main>
+  <div class="berufe" id="berufe" hidden></div>
+  <div class="augenbraue">Lernfeld wählen</div>
+  <div id="anwendungen-halter"></div>
+</main>
+
+<footer class="fuss">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+  <span>Alle Trainer laufen im Browser, auch ohne Internet. Dein Lernstand wird nur auf diesem Gerät gespeichert.</span>
+</footer>
+
+<dialog class="design-dlg" id="design-dlg"><form method="dialog">
+  <h3>Design wählen</h3>
+  <div class="design-liste" id="design-liste"></div>
+  <button class="zu">Schließen</button>
+</form></dialog>
+
+<script>
+/* ---------- Inhalte ---------- */
+const SYM = {
+  buch:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/><path d="M6.5 8h2.5M6.5 11h2.5M15.5 8H18M15.5 11H18"/></svg>',
+  klr:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3.5" rx=".5"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01"/></svg>',
+  if:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 16l4-5 3 3 5-7"/><path d="M14 7h4v4"/></svg>',
+  bl:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5v12H3z"/><rect x="7" y="12" width="4" height="4"/><rect x="13" y="12" width="4" height="4"/><rect x="10" y="16" width="4" height="4"/></svg>',
+  vw:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+  industrie:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 21V10l5 3V10l5 3V6h3v-3h3v18z"/></svg>',
+  gh:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l9-5 9 5v11H3z"/><path d="M7 20v-6h10v6M7 17h10"/></svg>',
+  mk:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10v4h3l6 4V6L7 10z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+  bm:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12h18"/></svg>',
+  eh:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>'
+};
+/* Anwendungen: Datei, Speicher-Schlüssel (für den Lernstand), Zahlen aus den Trainern */
+const ANW = {
+ "lf01": {
+  "datei": "IK_LF01.html",
+  "key": "profil-ik-lf01",
+  "art": "bl",
+  "fach": "Lernfeld 1 · 1. Ausbildungsjahr",
+  "titel": "Das Unternehmen vorstellen und die eigene Rolle mitgestalten",
+  "text": "Duale Ausbildung und Jugendarbeitsschutz, Vollmachten, Geschäftsprozesse und EPK, Rechtsformen, Unternehmensziele und betriebliche Mitbestimmung.",
+  "module": 20,
+  "aufgaben": 118,
+  "themen": [
+   "Duale Ausbildung",
+   "Leistungsprogramm und Produktionsfaktoren",
+   "Vollmachten",
+   "Aufbauorganisation",
+   "Geschäftsprozesse",
+   "Rechtsformen",
+   "Zielsystem und Anspruchsgruppen",
+   "Betriebliche Mitbestimmung"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf02": {
+  "datei": "IK_LF02.html",
+  "key": "profil-ik-lf02",
+  "art": "bl",
+  "fach": "Lernfeld 2 · 1. Ausbildungsjahr",
+  "titel": "Projekte planen und durchführen",
+  "text": "Grundlagen für die Projektarbeit: Merkmale eines Projekts, magisches Dreieck, SMARTe Ziele, Projektphasen und Rollen, Kreativitätstechniken, Planungswerkzeuge und Projektabschluss.",
+  "module": 2,
+  "aufgaben": 11,
+  "themen": [
+   "Projekte und Projektziele",
+   "Ideen finden und Projekte planen"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf03": {
+  "datei": "IK_LF03.html",
+  "key": "profil-ik-lf03",
+  "art": "bl",
+  "fach": "Lernfeld 3 · 1. Ausbildungsjahr",
+  "titel": "Kundenaufträge bearbeiten und überwachen",
+  "text": "Rechts- und Geschäftsfähigkeit, Verträge, Besitz und Eigentum, Nichtigkeit und Anfechtung; Angebot und AGB, Kaufvertrag, mangelhafte Lieferung, Beschwerden, Zahlungsverzug und Verjährung.",
+  "module": 12,
+  "aufgaben": 73,
+  "themen": [
+   "Rechtliche Rahmenbedingungen",
+   "Auftragsabwicklung",
+   "Verkaufspreis aus den Selbstkosten",
+   "Kundenbindung"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf04": {
+  "datei": "IK_LF04.html",
+  "key": "profil-ik-lf04",
+  "art": "bl",
+  "fach": "Lernfeld 4 · 1. Ausbildungsjahr",
+  "titel": "Beschaffungsprozesse planen und steuern",
+  "text": "ABC- und XYZ-Analyse, Bestellpunkt, Bestellrhythmus und optimale Bestellmenge, Angebotsvergleich sowie Lieferungsverzug.",
+  "module": 13,
+  "aufgaben": 62,
+  "themen": [
+   "Beschaffungsplanung",
+   "Bezugsquellen und Angebotsvergleich",
+   "Leistungsstörungen in der Beschaffung"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf05": {
+  "datei": "IK_LF05.html",
+  "key": "profil-ik-lf05",
+  "art": "buch",
+  "fach": "Lernfeld 5 · 1. Ausbildungsjahr",
+  "titel": "Wertströme buchhalterisch dokumentieren und auswerten",
+  "text": "Von Inventar und Bilanz über Buchungssätze und Erfolgskonten bis zu Umsatzsteuer, Skonto, Anschaffungskosten, Abschreibungen und Verkauf von Anlagevermögen.",
+  "module": 18,
+  "aufgaben": 162,
+  "themen": [
+   "Grundlagen",
+   "Standard-Geschäftsvorfälle",
+   "Anschaffungskosten und Abschreibungen"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf06": {
+  "datei": "IK_LF06.html",
+  "key": "profil-ik-lf06",
+  "art": "bl",
+  "fach": "Lernfeld 6 · 2. Ausbildungsjahr",
+  "titel": "Leistungserstellung planen, steuern und kontrollieren",
+  "text": "Fertigungsverfahren und nachhaltige Produktion, Make or Buy, Bedarfsermittlung, Durchlaufzeit und Terminierung, optimale Losgröße, Maschinenbelegung und Netzplantechnik.",
+  "module": 13,
+  "aufgaben": 53,
+  "themen": [
+   "Fertigungsverfahren und Nachhaltigkeit",
+   "Stücklisten und Produktdokumente",
+   "Make or Buy und Bedarfsermittlung",
+   "Losgröße, Durchlaufzeit und Termine",
+   "Maschinenbelegung und Netzplantechnik",
+   "Rationalisierung und Gewinnschwelle",
+   "Qualitätsmanagement und KVP"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf07": {
+  "datei": "IK_LF07.html",
+  "key": "profil-ik-lf07",
+  "art": "bl",
+  "fach": "Lernfeld 7 · 2. Ausbildungsjahr",
+  "titel": "Logistik- und Lagerprozesse koordinieren, umsetzen und überwachen",
+  "text": "Aufgaben und Arten des Lagers, zentrale und dezentrale Lagerung, Eigen- und Fremdlager, Lagerkennziffern mit Lagerzins- und Lagerkostensatz, Wareneingang, Kommissionierung und Transport.",
+  "module": 7,
+  "aufgaben": 42,
+  "themen": [
+   "Aufgaben und Arten des Lagers",
+   "Lagerstandort und Lagerform",
+   "Lagerkennziffern und Wirtschaftlichkeit",
+   "Wareneingang, Kommissionierung und Transport",
+   "Supply-Chain-Management, Push und Pull"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf08": {
+  "datei": "IK_LF08.html",
+  "key": "profil-ik-lf08",
+  "art": "klr",
+  "fach": "Lernfeld 8 · 2. Ausbildungsjahr",
+  "titel": "Kosten- und Leistungsrechnung zur Vorbereitung unternehmerischer Entscheidungen durchführen",
+  "text": "Abgrenzungsrechnung, Kostenstellenrechnung mit BAB, Kalkulation in der Kostenträgerrechnung, Deckungsbeitragsrechnung sowie statische Investitionsrechnung (Kosten-, Gewinn-, Rentabilitäts- und Amortisationsvergleich).",
+  "module": 28,
+  "aufgaben": 220,
+  "themen": [
+   "Abgrenzungsrechnung",
+   "Kostenstellenrechnung",
+   "Kostenträgerrechnung",
+   "Teilkostenrechnung",
+   "Investitionsrechnung (statisch)"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf09": {
+  "datei": "IK_LF09.html",
+  "key": "profil-ik-lf09",
+  "art": "bl",
+  "fach": "Lernfeld 9 · 2. Ausbildungsjahr",
+  "titel": "Marketingkonzepte planen und umsetzen",
+  "text": "Marktforschung und Marktkennzahlen, Produktlebenszyklus, Portfolio-, SWOT-Analyse und Benchmarking; Produkt-, Preis-, Distributions- und Kommunikationspolitik.",
+  "module": 13,
+  "aufgaben": 80,
+  "themen": [
+   "Marktforschung",
+   "Strategische Analyse",
+   "Marketinginstrumente",
+   "Wettbewerbsrecht",
+   "Außenhandel: Risiken und Absicherung"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf10": {
+  "datei": "IK_LF10.html",
+  "key": "profil-ik-lf10",
+  "art": "buch",
+  "fach": "Lernfeld 10 · 3. Ausbildungsjahr",
+  "titel": "Jahresabschluss vorbereiten, auswerten und für Finanzierungsentscheidungen nutzen",
+  "text": "Bewertung und Abschlussbuchungen, außerplanmäßige Abschreibung und Wertaufholung, JA-Analyse (Bilanzkennzahlen, Rentabilität, Cash-Flow, Kritik) sowie Finanzplanung und Liquidität, Kapitalbedarf, Finanzierungsformen und Kreditsicherheiten.",
+  "module": 26,
+  "aufgaben": 144,
+  "themen": [
+   "Jahresabschluss und Bewertung",
+   "JA-Analyse",
+   "Finanzplanung und Liquidität",
+   "Kapitalbedarf und Finanzierungsformen",
+   "Kreditsicherheiten"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf11": {
+  "datei": "IK_LF11.html",
+  "key": "profil-ik-lf11",
+  "art": "vw",
+  "fach": "Lernfeld 11 · 3. Ausbildungsjahr",
+  "titel": "Geschäftsprozesse an gesamtwirtschaftlichen Rahmenbedingungen ausrichten",
+  "text": "Wirtschaftsordnung und Staatseingriffe, Märkte und Wettbewerb, Konzentration und Wettbewerbspolitik, Volkswirtschaftliche Gesamtrechnung, magisches Viereck sowie Geldpolitik der EZB mit Wirkungskette.",
+  "module": 21,
+  "aufgaben": 119,
+  "themen": [
+   "Wirtschaftsordnung",
+   "Wirtschaftskreislauf",
+   "Markt und Wettbewerb",
+   "Gesamtrechnung und wirtschaftspolitische Ziele",
+   "Preisniveau und Geldpolitik",
+   "Konjunktur und Globalisierung"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf12": {
+  "datei": "IK_LF12.html",
+  "key": "profil-ik-lf12",
+  "art": "bl",
+  "fach": "Lernfeld 12 · 3. Ausbildungsjahr",
+  "titel": "Personalprozesse planen, steuern und kontrollieren",
+  "text": "Personalbedarfsplanung, Personalbeschaffung und -auswahl, Entlohnung mit Zeit-, Akkord- und Prämienlohn sowie Entgeltabrechnung, Kündigung, Kündigungsschutz und Arbeitszeugnis.",
+  "module": 16,
+  "aufgaben": 77,
+  "themen": [
+   "Personalbedarfsplanung",
+   "Personalbeschaffung und -auswahl",
+   "Arbeitsvertrag und Personalbeurteilung",
+   "Arbeitszeitmodelle",
+   "Entlohnung und Entgeltabrechnung",
+   "Beendigung von Arbeitsverhältnissen"
+  ],
+  "bald": false,
+  "hinweis": ""
+ },
+ "lf13": {
+  "datei": "",
+  "key": "profil-ik-lf13",
+  "art": "bl",
+  "fach": "Lernfeld 13 · 3. Ausbildungsjahr",
+  "titel": "Betriebliche Problemlösungsprozesse innovativ durchführen",
+  "text": "",
+  "module": 0,
+  "aufgaben": 0,
+  "themen": [],
+  "bald": true,
+  "hinweis": ""
+ },
+ "gw": {
+  "datei": "IK_GW.html",
+  "key": "profil-ik-gw",
+  "art": "vw",
+  "fach": "Kompetenzbereich Gesamtwirtschaft · eigene Prüfung",
+  "titel": "Gesamtwirtschaft",
+  "text": "Duale Ausbildung, Arbeitsschutz, Vollmachten, Rechtsformen, Ziele, Standort und Existenzgründung, betriebliche Mitbestimmung und Tarifrecht, Sozialversicherung; Wirtschaftsordnung, Wirtschaftskreislauf, Markt und Wettbewerb, Gesamtrechnung, wirtschaftspolitische Ziele, Konjunktur, Geldpolitik, Binnenmarkt und Globalisierung.",
+  "module": 43,
+  "aufgaben": 243,
+  "themen": [
+   "Duale Ausbildung",
+   "Vollmachten",
+   "Rechtsformen",
+   "Selbstständigkeit: Ziele, Anspruchsgruppen und Standort",
+   "Betriebliche Mitbestimmung und Tarifrecht",
+   "Sozialversicherung und Altersvorsorge",
+   "Wirtschaftsordnung",
+   "Wirtschaftskreislauf",
+   "Markt und Wettbewerb",
+   "Gesamtrechnung und wirtschaftspolitische Ziele",
+   "Preisniveau und Geldpolitik",
+   "Konjunktur, Binnenmarkt und Globalisierung"
+  ],
+  "bald": false,
+  "hinweis": ""
+ }
+};
+const BERUFE = [
+ {
+  "id": "ik",
+  "name": "Industriekaufleute",
+  "sym": "industrie",
+  "anw": [
+   "lf01",
+   "lf02",
+   "lf03",
+   "lf04",
+   "lf05",
+   "lf06",
+   "lf07",
+   "lf08",
+   "lf09",
+   "lf10",
+   "lf11",
+   "lf12",
+   "lf13",
+   "gw"
+  ]
+ }
+];
+const THEMEN = [
+  {id:'',       name:'Klassik',      info:'ruhig, Petrol und Grau', farben:['#F1F3EF','#14606B','#5B4A9E','#16212B']},
+  {id:'nacht',  name:'Nachtschicht', info:'dunkel, Cyan und Pink', farben:['#0E1330','#22D3EE','#F472B6','#A78BFA'], schrift:'Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600'},
+  {id:'marker', name:'Textmarker',   info:'schwarze Konturen, Leuchtgelb', farben:['#FFFDF5','#FFE14D','#1A1A1A','#E5007E'], schrift:'Archivo:wght@400;500;600;700&family=Archivo+Black&family=Space+Mono:wght@400;700'},
+  {id:'lagune', name:'Lagune',       info:'frisch, rund, Blau-Türkis', farben:['#EEF6FB','#0284C7','#06B6D4','#7C3AED'], schrift:'Nunito:wght@400;600;700;800'},
+  {id:'traube', name:'Traube',       info:'Violett mit Limette', farben:['#F6F3FF','#1E1338','#A3E635','#DB2777'], schrift:'Outfit:wght@400;500;600;700'},
+  {id:'klar',   name:'Klar',         info:'hoher Kontrast, größere Schrift', farben:['#FFFFFF','#000000','#0040FF','#A0005A'], schrift:'Atkinson+Hyperlegible:wght@400;700'}
+];
+
+/* ---------- Speicher (kann fehlen, z. B. im privaten Fenster) ---------- */
+const lies = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+const schreib = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+
+/* ---------- Design ---------- */
+let thema = document.documentElement.getAttribute('data-thema') || '';
+function schriftLaden(t){
+  if (!t.schrift || document.getElementById('schrift-' + t.id)) return;
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.id = 'schrift-' + t.id;
+  l.href = 'https://fonts.googleapis.com/css2?family=' + t.schrift + '&display=swap';
+  document.head.appendChild(l);
+}
+const tupfen = t => t.farben.slice(1).map(f => `<i style="background:${f}"></i>`).join('');
+function themaSetzen(id, merken){
+  thema = id; const t = THEMEN.find(x => x.id === id) || THEMEN[0];
+  if (id) document.documentElement.setAttribute('data-thema', id); else document.documentElement.removeAttribute('data-thema');
+  schriftLaden(t);
+  document.getElementById('design-tupfen').innerHTML = tupfen(t);
+  if (merken){
+    schreib('portal.thema', id);
+    // Auch die Trainer merken sich das Design (gleicher Speicher, wenn der Browser ihn teilt)
+    Object.values(ANW).forEach(a => schreib(a.key + '.thema', id));
+  }
+  anwendungenZeichnen();
+}
+function designOeffnen(){
+  const d = document.getElementById('design-dlg');
+  document.getElementById('design-liste').innerHTML = THEMEN.map(t =>
+    `<button type="button" class="design-opt${t.id === thema ? ' aktiv' : ''}" onclick="themaSetzen('${t.id}', true); designOeffnen()"><span class="tupfen">${tupfen(t)}</span><span><b>${t.name}</b><small>${t.info}</small></span></button>`).join('');
+  if (!d.open) d.showModal();
+}
+
+/* ---------- Beruf ---------- */
+let beruf = 'ik';
+if (!BERUFE.some(b => b.id === beruf && !b.bald)) beruf = '';
+function berufeZeichnen(){
+  document.getElementById('berufe').innerHTML = BERUFE.map(b =>
+    `<button class="beruf" aria-pressed="${b.id === beruf}"${b.bald ? ' disabled' : ''} onclick="berufWaehlen('${b.id}')">
+       <span class="sym">${SYM[b.sym]}</span>
+       <span class="name">${b.name}</span>
+       <span class="info">${b.bald ? 'in Vorbereitung' : b.anw.length + (b.anw.length === 1 ? ' Anwendung' : ' Anwendungen')}</span>
+     </button>`).join('');
+}
+function berufWaehlen(id){
+  beruf = id; schreib('portal.beruf', id);
+  const u = new URL(location.href); u.searchParams.set('beruf', id); history.replaceState(null, '', u);
+  berufeZeichnen(); anwendungenZeichnen();
+  if (window.innerWidth < 700) document.getElementById('anwendungen-halter').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- Lernstand eines Trainers (wenn der Browser den Speicher teilt) ---------- */
+function stand(a){
+  let u; try { u = JSON.parse(lies(a.key + '.uebersicht') || 'null'); } catch(e){ u = null; }
+  if (u && u.v === 1){
+    if (!u.bearbeitet && !u.geloest) return null;
+    return {aufgaben:u.aufgaben || a.aufgaben, bearbeitet:Math.min(u.bearbeitet, u.aufgaben || a.aufgaben), geloest:u.geloest || 0, ohneFehler:u.ohneFehler || 0,
+            module:u.module || a.module, beherrscht:u.beherrscht || 0, zuletzt:u.zuletzt, letztesModul:u.letztesModul};
+  }
+  // ältere Trainer-Fassung: nur der Lernstand ist gespeichert
+  let s; try { s = JSON.parse(lies(a.key + '.lernstand.v3') || 'null'); } catch(e){ s = null; }
+  if (!s || !s.gesamt) return null;
+  const gesehen = new Set([...(s.gesehen || []), ...(s.verlauf || []).map(e => e.id)]).size;
+  if (!gesehen) return null;
+  return {aufgaben:a.aufgaben, bearbeitet:Math.min(gesehen, a.aufgaben), geloest:s.gesamt.geloest || 0, ohneFehler:s.gesamt.ohneFehler || 0,
+          module:a.module, beherrscht:null, zuletzt:(s.verlauf && s.verlauf[0] && s.verlauf[0].zeit) || null, letztesModul:null};
+}
+function wann(t){
+  if (!t) return '';
+  const d = new Date(t), h = new Date(); h.setHours(0, 0, 0, 0);
+  const tage = Math.round((h - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+  return tage <= 0 ? 'heute' : tage === 1 ? 'gestern' : tage < 7 ? `vor ${tage} Tagen` : d.toLocaleDateString('de-DE', {day:'numeric', month:'short'});
+}
+const quote = st => st.geloest ? Math.round(st.ohneFehler / st.geloest * 100) : 0;
+function bilanzHTML(ids){
+  const L = ids.filter(id => !ANW[id].bald).map(id => ({a:ANW[id], st:stand(ANW[id])})).filter(x => x.st);
+  if (!L.length) return '<p class="bilanz-leer">Noch kein Lernstand – sobald du in einem Trainer übst, siehst du hier deine Erfolge. (Startseite und Trainer müssen dafür im selben Browser und von derselben Website bzw. aus demselben Ordner geöffnet werden.)</p>';
+  const sum = k => L.reduce((s, x) => s + (x.st[k] || 0), 0), alle = sum('aufgaben');
+  const mit = L.filter(x => x.st.beherrscht != null), letzt = L.filter(x => x.st.zuletzt).sort((p, q) => q.st.zuletzt - p.st.zuletzt)[0];
+  const g = sum('geloest');
+  return `<div class="bilanz">
+    <div><div class="k">Bearbeitet</div><div class="w">${sum('bearbeitet')}</div><div class="u">Aufgaben in ${L.length} Trainer${L.length > 1 ? 'n' : ''}</div></div>
+    <div><div class="k">Gelöst</div><div class="w">${g}</div><div class="u">${g ? Math.round(sum('ohneFehler') / g * 100) + ' % auf Anhieb richtig' : '–'}</div></div>
+    <div><div class="k">Module gemeistert</div><div class="w">${mit.length ? mit.reduce((s, x) => s + x.st.beherrscht, 0) : '–'}</div><div class="u">${mit.length ? 'von ' + mit.reduce((s, x) => s + x.st.module, 0) : 'Trainer einmal öffnen'}</div></div>
+    <div><div class="k">Zuletzt geübt</div><div class="w">${letzt ? wann(letzt.st.zuletzt) : '–'}</div><div class="u">${letzt ? letzt.a.fach : ''}</div></div>
+  </div>`;
+}
+
+/* ---------- Anwendungen ---------- */
+function anwendungenZeichnen(){
+  const h = document.getElementById('anwendungen-halter'), b = BERUFE.find(x => x.id === beruf);
+  if (!b){ h.innerHTML = '<div class="leer">Wähle oben deinen Ausbildungsberuf – dann erscheinen hier die passenden Trainer.</div>'; return; }
+  const design = thema ? '?design=' + thema : '';
+  h.innerHTML = `<div class="anw-kopf"><h2>${b.name}</h2><span class="link">Link für die Klasse: <button onclick="linkKopieren(this)">kopieren</button></span></div>
+    ${bilanzHTML(b.anw)}
+    <div class="anwendungen">${b.anw.map(id => {
+      const a = ANW[id], st = stand(a), anteil = st ? Math.round(st.bearbeitet / st.aufgaben * 100) : 0;
+      return `<article class="anw ${a.art}${a.bald ? ' bald' : ''}">
+        <div class="anw-band"></div>
+        <div class="anw-inhalt">
+          <div class="anw-titel"><span class="sym">${SYM[a.art]}</span><div><div class="fach">${a.fach}</div><h3>${a.titel}</h3></div></div>
+          <p>${a.text}</p>
+          <div class="themen">${a.themen.map(t => `<span>${t}</span>`).join('')}</div>
+          ${a.bald ? '' : `<div class="zahlen"><span><b>${a.module}</b> Module</span><span><b>${a.aufgaben}</b> Aufgaben</span></div>`}
+          ${st ? `<div class="stand"><span>${st.bearbeitet} von ${st.aufgaben} Aufgaben bearbeitet (${anteil} %)</span><div class="balken"><i style="width:${anteil}%"></i></div>
+            <div class="stand-werte"><div><b>${st.geloest}</b>gelöst</div><div><b>${quote(st)} %</b>auf Anhieb</div><div><b>${st.beherrscht != null ? st.beherrscht + '/' + st.module : '–'}</b>Module</div></div>
+            ${st.zuletzt ? `<div class="stand-zuletzt">Zuletzt geübt: ${wann(st.zuletzt)}${st.letztesModul ? ' · ' + st.letztesModul : ''}</div>` : ''}</div>` : ''}
+          <div class="anw-fuss">${a.bald ? `<span class="anw-bald">${a.hinweis || 'in Vorbereitung'}</span>` : `<a class="anw-knopf" href="${a.datei}${design}">${st ? 'Weiterüben' : 'Starten'} <span>→</span></a>`}</div>
+        </div>
+      </article>`; }).join('')}</div>`;
+}
+function linkKopieren(btn){
+  const u = new URL(location.href); u.search = '?beruf=' + beruf;
+  const fertig = () => { btn.textContent = 'kopiert ✓'; setTimeout(() => btn.textContent = 'kopieren', 1800); };
+  if (navigator.clipboard) navigator.clipboard.writeText(u.href).then(fertig, () => prompt('Link kopieren:', u.href));
+  else prompt('Link kopieren:', u.href);
+}
+
+berufeZeichnen();
+themaSetzen(thema);
+// Zurück vom Trainer (auch aus dem Browser-Cache) oder Übung in einem anderen Tab: Lernstand neu anzeigen
+window.addEventListener('pageshow', () => { if (beruf) anwendungenZeichnen(); });
+window.addEventListener('storage', e => { if (beruf && e.key && /\.(uebersicht|lernstand\.v3)$/.test(e.key)) anwendungenZeichnen(); });
+</script>
+<script>try { localStorage.setItem('ik-startseite', location.href.split('#')[0].split('?')[0]); } catch(e) {}</script>
+</body>
+</html>

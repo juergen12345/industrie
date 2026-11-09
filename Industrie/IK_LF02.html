@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lernfeld 2 · Industriekaufleute</title>
+<script>var PROFIL = {"id":"ik-lf02","titel":"Lernfeld 2","kennung":"Industriekaufleute","felder":[{"titel":"Projekte und Projektziele","module":["bl_PJ"]},{"titel":"Ideen finden und Projekte planen","module":["bl_PT"]}],"ohne":[],"anders":{},"umbenennen":{},"suche":true,"lernstandSenden":true}; var KENNUNG_TITEL = "Industriekaufleute"; var LANGTITEL = "Projekte planen und durchführen"; /*@@PROFIL@@*/
+var SP = PROFIL ? 'profil-' + PROFIL.id : 'aufgabenpool';</script>
+<script>try{var t=localStorage.getItem(SP + '.thema')||'';var q=(location.search.match(/[?&]design=([a-z]+)/)||[])[1];if(q!=null)t=q;if(t)document.documentElement.setAttribute('data-thema',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kern/pool.css">
+<style>
+.zur-uebersicht{font-size:.8rem; color:var(--stumm); text-decoration:none; white-space:nowrap; border:1px solid var(--linie); border-radius:999px; padding:.2rem .6rem}
+.zur-uebersicht:hover{color:var(--tinte); border-color:var(--tinte2)}
+.lf-langtitel{margin-right:auto; font-family:var(--serif, Georgia, serif); font-size:1.1rem; font-weight:600; color:var(--tinte); line-height:1.25; padding-right:1rem; min-width:12rem; flex:1 1 16rem}
+</style>
+</head>
+<body>
+
+<header class="kopf">
+  <div class="kopf-innen">
+    <div class="marke">
+      <a class="zur-uebersicht" href="IK-Start.html" title="Zur Übersicht aller Lernfelder">← Lernfelder</a>
+      <h1 id="app-titel">Aufgabenpool</h1>
+      <span class="kennung" id="app-kennung">alle Aufgaben</span>
+    </div>
+    <nav class="reiter">
+      <button id="r-ueben" class="aktiv" onclick="zeigeAnsicht('ueben',this)">Üben</button>
+      <button id="r-dash" onclick="zeigeAnsicht('dash',this)">Lernstand</button>
+      <button id="r-bank" onclick="zeigeAnsicht('bank',this)">Aufgaben</button>
+      <button id="r-pruefung" onclick="zeigeAnsicht('pruefung',this)">Prüfungstraining</button>
+      <button id="r-testschreiben" onclick="testSchreibenOeffnen(this)">Test schreiben</button>
+      <button id="r-lehrer" class="lehrer-knopf" type="button" onclick="lehrerUmschalten()" aria-expanded="false" title="Funktionen für Lehrkräfte ein- oder ausblenden">Lehrer</button>
+      <button id="r-test" class="lehrer-fn" onclick="zeigeAnsicht('test',this)">Test &amp; Druck</button>
+      <button id="r-auswerten" class="lehrer-fn" onclick="zeigeAnsicht('auswerten',this)">Auswerten</button>
+    </nav>
+    <span class="design-halter" id="design-halter"><button type="button" class="design-knopf" id="design-knopf" aria-haspopup="true" aria-expanded="false" title="Design wählen" onclick="designWahlUmschalten(event)"></button><div class="design-wahl" id="design-wahl" role="dialog" aria-label="Design wählen" hidden></div></span>
+  </div>
+</header>
+
+<main class="buehne">
+
+  <!-- ===================== ÜBEN ===================== -->
+  <section id="ansicht-ueben" class="ansicht aktiv">
+    <div id="suche-halter"></div>
+    <div class="modulleiste" id="modulleiste"></div>
+    <div class="gruppen-leiste" id="gruppen-leiste"></div>
+    <div id="drill-halter"></div>
+
+    <div class="karte" id="aufgaben-karte">
+      <div id="modul-merke"></div>
+      <div class="augenbraue">Aufgabe</div>
+      <div class="fall-kopf">
+        <div class="fall-titel" id="fall-titel">–</div>
+        <div class="kopf-rechts">
+          <div class="blaettern" id="blaettern"></div>
+          <div class="zaehler" id="fall-zaehler"></div>
+        </div>
+      </div>
+      <p class="fall-text" id="fall-text"></p>
+      <div class="marker" id="fall-marker"></div>
+      <div id="hinweis-halter"></div>
+    </div>
+
+    <div class="karte" id="editor-karte">
+      <div class="augenbraue">Buchungssatz erfassen</div>
+      <div id="vorgabe-halter"></div>
+      <div class="satz">
+        <div class="satz-kopf">
+          <div>Seite</div><div>Konto</div><div class="r">Betrag</div><div></div>
+        </div>
+        <div id="satz-zeilen"></div>
+        <button class="plus" onclick="zeileHinzu()" style="margin-top:.6rem">+ Zeile</button>
+        <div class="satz-fuss">
+          <span class="paar s">Summe Soll <b id="summe-soll">0,00 €</b></span>
+          <span class="paar h">Summe Haben <b id="summe-haben">0,00 €</b></span>
+          <span class="waage" id="waage">Beide Seiten müssen dieselbe Summe ergeben.</span>
+        </div>
+        <p class="satz-tipp">Tipp: Statt eines Betrags geht auch der Rechenweg, z. B. <span class="mono">1800*19%</span> oder <span class="mono">2142/1,19</span> – gerechnet wird beim Verlassen des Feldes.</p>
+      </div>
+    </div>
+
+    <div class="karte" id="bilanz-karte" style="display:none">
+      <div class="augenbraue">Betroffene Bilanzpositionen</div>
+      <div id="zeilen-bilanz"></div>
+      <button class="plus" onclick="bilanzZeileHinzu()">+ Position</button>
+
+      <div class="augenbraue" style="margin-top:1.3rem">Art der Bilanzveränderung</div>
+      <div class="vorgang-wahl" id="vorgang-wahl"></div>
+      <div class="bilanz-echo" id="bilanz-echo"></div>
+    </div>
+
+    <div class="karte" id="kalkulation-karte" style="display:none">
+      <div class="augenbraue">Gegebene Werte</div>
+      <div class="kalk-pool" id="kalk-pool"
+           ondragover="kalkZoneUeber(event)" ondrop="kalkZoneAblegen(event,null)" onclick="kalkZoneTippen(null)"></div>
+
+      <div class="augenbraue">Wareneinsatz ermitteln</div>
+      <div class="kalk-schema">
+        <div class="kalk-zeile">
+          <span class="kalk-op"> </span>
+          <div class="kalk-slot" id="kalk-zone-ab" data-z="ab"
+               ondragover="kalkZoneUeber(event)" ondragleave="kalkZoneWeg(event)" ondrop="kalkZoneAblegen(event,'ab')" onclick="kalkZoneTippen('ab')"></div>
+          <span></span>
+        </div>
+        <div class="kalk-zeile">
+          <span class="kalk-op">+</span>
+          <div class="kalk-slot" id="kalk-zone-einkauf" data-z="einkauf"
+               ondragover="kalkZoneUeber(event)" ondragleave="kalkZoneWeg(event)" ondrop="kalkZoneAblegen(event,'einkauf')" onclick="kalkZoneTippen('einkauf')"></div>
+          <span></span>
+        </div>
+        <div class="kalk-zeile">
+          <span class="kalk-op">−</span>
+          <div class="kalk-slot" id="kalk-zone-sb" data-z="sb"
+               ondragover="kalkZoneUeber(event)" ondragleave="kalkZoneWeg(event)" ondrop="kalkZoneAblegen(event,'sb')" onclick="kalkZoneTippen('sb')"></div>
+          <span></span>
+        </div>
+        <div class="kalk-zeile betont">
+          <span class="kalk-op">=</span>
+          <span>Wareneinsatz</span>
+          <div class="kalk-ergebnis"><input type="text" id="kalk-wareneinsatz" inputmode="decimal" placeholder="0,00" oninput="kalkWareneinsatzEingabe(this.value)"></div>
+        </div>
+      </div>
+
+      <div class="kalk-trenn"></div>
+      <div class="augenbraue">Warenrohgewinn ermitteln</div>
+      <div class="kalk-schema">
+        <div class="kalk-zeile">
+          <span class="kalk-op"> </span>
+          <span id="kalk-umsatz-label">Umsatzerlöse</span>
+          <div class="kalk-fix" id="kalk-umsatz-wert"></div>
+        </div>
+        <div class="kalk-zeile">
+          <span class="kalk-op">−</span>
+          <span>Wareneinsatz</span>
+          <div class="kalk-fix" id="kalk-umsatz-wareneinsatz">–</div>
+        </div>
+        <div class="kalk-zeile betont">
+          <span class="kalk-op">=</span>
+          <span>Warenrohgewinn</span>
+          <div class="kalk-ergebnis"><input type="text" id="kalk-warenrohgewinn" inputmode="decimal" placeholder="0,00" oninput="kalkWarenrohgewinnEingabe(this.value)"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="karte" id="kette-karte" style="display:none">
+      <div id="ketten-bloecke"></div>
+      <div id="ketten-fertig"></div>
+    </div>
+
+    <div class="karte" id="tabelle-karte" style="display:none">
+      <div class="augenbraue">Tabelle ausfüllen</div>
+      <p class="tab-hilfe">Felder, in die nichts gehört, bleiben leer.</p>
+      <div id="tab-halter"></div>
+    </div>
+
+    <div class="karte" id="labor-karte" style="display:none">
+      <div class="augenbraue">Labor · Werkstatt zum Ausprobieren</div>
+      <div id="labor-halter"></div>
+      <div id="labor-stand" class="labor-stand"></div>
+    </div>
+
+    <div class="karte" id="ak-karte" style="display:none">
+      <div class="augenbraue">Kostenpositionen</div>
+      <div class="ak-pool" id="ak-pool"
+           ondragover="akZoneUeber(event)" ondrop="akZoneAblegen(event,null)" onclick="akZoneTippen(null)"></div>
+
+      <div class="augenbraue">Gehört zu den Anschaffungskosten</div>
+      <div class="ak-zone" id="ak-zone"
+           ondragover="akZoneUeber(event)" ondragleave="akZoneWeg(event)" ondrop="akZoneAblegen(event,'ak')" onclick="akZoneTippen('ak')"></div>
+
+      <div class="augenbraue">Gehört nicht dazu</div>
+      <div class="ak-zone raus" id="ak-zone-raus"
+           ondragover="akZoneUeber(event)" ondragleave="akZoneWeg(event)" ondrop="akZoneAblegen(event,'raus')" onclick="akZoneTippen('raus')"></div>
+
+      <div class="ak-summe">
+        <span>Anschaffungskosten insgesamt</span>
+        <input type="text" id="ak-summe-eingabe" inputmode="decimal" placeholder="0,00" oninput="akSummeEingabe(this.value)">
+      </div>
+      <div class="waage" id="ak-waage" style="margin:.7rem 0 0; text-align:center"></div>
+    </div>
+
+    <div class="karte" id="hk-karte" style="display:none">
+      <div class="augenbraue">Kostenpositionen der Periode</div>
+      <div class="posten-pool" id="hk-pool"
+           ondragover="zoneUeber(event)" ondrop="hkAblegen(event,null)" onclick="hkZoneTippen(null)"></div>
+
+      <div class="augenbraue" style="margin-top:1.3rem">Zuordnung nach § 255 Abs. 2 HGB</div>
+      <div class="hk-blatt">
+        <div class="hk-koerper">
+          <div class="hk-feld">
+            <div class="abschnitt">
+              <h4>Aktivierungspflicht<small>muss einbezogen werden</small></h4>
+              <div class="zone" id="hkzone-pflicht" data-z="pflicht"
+                   ondragover="zoneUeber(event)" ondragleave="zoneWeg(event)" ondrop="hkAblegen(event,'pflicht')" onclick="hkZoneTippen('pflicht')"></div>
+              <div class="zsumme"><span>Summe</span><span id="hks-pflicht">0,00 €</span></div>
+            </div>
+          </div>
+          <div class="hk-feld">
+            <div class="abschnitt">
+              <h4>Aktivierungswahlrecht<small>darf einbezogen werden</small></h4>
+              <div class="zone" id="hkzone-wahl" data-z="wahl"
+                   ondragover="zoneUeber(event)" ondragleave="zoneWeg(event)" ondrop="hkAblegen(event,'wahl')" onclick="hkZoneTippen('wahl')"></div>
+              <div class="zsumme"><span>Summe</span><span id="hks-wahl">0,00 €</span></div>
+            </div>
+          </div>
+          <div class="hk-feld">
+            <div class="abschnitt">
+              <h4>Aktivierungsverbot<small>bleibt außen vor</small></h4>
+              <div class="zone" id="hkzone-verbot" data-z="verbot"
+                   ondragover="zoneUeber(event)" ondragleave="zoneWeg(event)" ondrop="hkAblegen(event,'verbot')" onclick="hkZoneTippen('verbot')"></div>
+              <div class="zsumme"><span>Summe</span><span id="hks-verbot">0,00 €</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hk-grenzen">
+        <div class="z"><span>Wertuntergrenze</span><span id="hk-unter">0,00 €</span></div>
+        <div class="z ober"><span>Wertobergrenze</span><span id="hk-ober">0,00 €</span></div>
+      </div>
+      <div class="waage" id="hk-waage" style="margin:.7rem 0 0; text-align:center"></div>
+    </div>
+
+    <div class="karte" id="rechnung-karte" style="display:none">
+      <div class="augenbraue">Berechnung</div>
+      <p class="rechnung-frage" id="rechnung-frage"></p>
+      <div class="rechnung-optionen" id="rechnung-optionen"></div>
+      <p class="rechnung-hinweis">Wähle den Betrag aus und prüfe anschließend.</p>
+    </div>
+
+    <div class="karte" id="inventar-karte" style="display:none">
+      <div class="augenbraue">Inventarposten</div>
+      <div class="posten-pool" id="posten-pool"
+           ondragover="zoneUeber(event)" ondrop="zoneAblegen(event,null)" onclick="zoneTippen(null)"></div>
+
+      <div class="augenbraue" style="margin-top:1.3rem">Bilanz</div>
+      <div class="bilanz-blatt">
+        <div class="bilanz-kopf">
+          <span class="l">Aktiva</span>
+          <span class="titel" id="bilanz-titel">Bilanz</span>
+          <span class="r">Passiva</span>
+        </div>
+        <div class="bilanz-koerper">
+          <div class="bilanz-spalte">
+            <div class="abschnitt">
+              <h4>A. Anlagevermögen</h4>
+              <div class="zone" id="zone-AV" data-z="AV"
+                   ondragover="zoneUeber(event)" ondragleave="zoneWeg(event)" ondrop="zoneAblegen(event,'AV')" onclick="zoneTippen('AV')"></div>
+              <div class="zsumme"><span>Summe</span><span id="s-AV">0,00 €</span></div>
+            </div>
+            <div class="abschnitt">
+              <h4>B. Umlaufvermögen</h4>
+              <div class="zone" id="zone-UV" data-z="UV"
+                   ondragover="zoneUeber(event)" ondragleave="zoneWeg(event)" ondrop="zoneAblegen(event,'UV')" onclick="zoneTippen('UV')"></div>
+              <div class="zsumme"><span>Summe</span><span id="s-UV">0,00 €</span></div>
+            </div>
+          </div>
+          <div class="mitte"></div>
+          <div class="bilanz-spalte">
+            <div class="abschnitt">
+              <h4>A. Eigenkapital</h4>
+              <div class="ek-feld">
+                <span>selbst ermitteln</span>
+                <input type="text" id="ek-eingabe" placeholder="Betrag oder Rechnung" autocomplete="off" oninput="ekEingabe(this.value)" onkeydown="if(event.key==='Enter'){ekFertig(this);}" onblur="ekFertig(this)">
+                <span class="ek-ergebnis" id="ek-ergebnis"></span>
+                <span class="ek-tipp">Du kannst direkt im Feld rechnen, z. B. 355.000 − 120.000</span>
+              </div>
+            </div>
+            <div class="abschnitt">
+              <h4>B. Schulden</h4>
+              <div class="zone zone-FK" id="zone-FK" data-z="FK"
+                   ondragover="zoneUeber(event)" ondragleave="zoneWeg(event)" ondrop="zoneAblegen(event,'FK')" onclick="zoneTippen('FK')"></div>
+              <div class="zsumme"><span>Summe</span><span id="s-FK">0,00 €</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="bilanz-summe">
+          <div class="z"><span>Bilanzsumme</span><span id="summe-aktiva">0,00 €</span></div>
+          <div class="mitte"></div>
+          <div class="z"><span>Bilanzsumme</span><span id="summe-passiva">0,00 €</span></div>
+        </div>
+      </div>
+      <div class="waage" id="bilanz-waage" style="margin:.7rem 0 0; text-align:center"></div>
+    </div>
+
+    <div class="karte" id="konto-karte" style="display:none">
+      <div class="augenbraue">T-Konto</div>
+      <div class="tk-paar" id="tk-halter"></div>
+      <div class="waage" id="tk-waage" style="margin:.7rem 0 0; text-align:center"></div>
+
+      <div class="augenbraue" style="margin-top:1.3rem">Geschäftsvorfälle zuordnen</div>
+      <div class="fall-liste" id="fall-liste"></div>
+    </div>
+
+    <div class="aktionen" id="aktionsleiste">
+      <button class="knopf haupt" id="btn-pruefen" onclick="pruefen()">Prüfen</button>
+      <button class="knopf zweit" id="btn-hinweis" onclick="naechsterHinweis()">Hinweis anfordern</button>
+      <button class="knopf leise" onclick="editorLeeren()">Eingabe löschen</button>
+      <button class="knopf leise" id="btn-neuzahlen" onclick="uebenNeueZahlen()" title="Dieselbe Aufgabe mit anderen Zahlen">Neue Zahlen</button>
+      <button class="knopf leise" onclick="ueberspringen()">Überspringen</button>
+    </div>
+
+    <div id="diagnose-halter"></div>
+    <div class="melde-zeile"><button type="button" class="melde-link" onclick="meldenOeffnen(false)">⚑ Fehler in dieser Aufgabe melden</button></div>
+    <div id="melde-box"></div>
+  </section>
+
+  <!-- ===================== LERNSTAND ===================== -->
+  <section id="ansicht-dash" class="ansicht">
+    <div class="karte">
+      <div class="augenbraue">Überblick</div>
+      <div class="kennzahl" id="kz-reihe"></div>
+    </div>
+    <div class="karte">
+      <div class="augenbraue">Module <button type="button" class="wk-knopf wk-alle" onclick="wissenAlle()" title="Wissen kompakt zu allen Modulen – zum Nachlesen, Drucken oder als Datei">📖 Wissen kompakt: alle Module</button></div>
+      <div id="modul-fortschritt"></div>
+    </div>
+    <div class="karte">
+      <div class="augenbraue">Fehlerheft</div>
+      <div id="fehlerheft"></div>
+    </div>
+    <div class="gitter">
+      <div class="karte">
+        <div class="augenbraue">Meine letzten Fehler</div>
+        <div id="fehler-offen"></div>
+      </div>
+      <div class="karte">
+        <div class="augenbraue">Verlauf</div>
+        <div id="verlauf"></div>
+      </div>
+    </div>
+    <div class="karte" id="ls-senden-karte" hidden>
+      <div class="augenbraue">Lernstand an Lehrkraft senden</div>
+      <p style="margin:.3rem 0 .6rem; font-size:.9rem">Erzeugt einen Code mit deinem Fortschritt je Modul und den offenen Aufgaben aus dem Fehlerheft. Gib ihn so ab, wie es deine Lehrkraft möchte (z. B. Moodle-Aufgabe, E-Mail). Es wird nichts automatisch verschickt.</p>
+      <div class="td-zeile" style="align-items:flex-end; gap:.6rem; flex-wrap:wrap">
+        <label class="td-feld" for="ls-name" style="flex:1 1 14rem">Dein Name<input id="ls-name" class="ta-feld" autocomplete="name" style="min-height:0"></label>
+        <button type="button" class="knopf haupt" onclick="lsCodeZeigen()">Lernstandscode erzeugen</button>
+      </div>
+      <div id="ls-code-bereich" hidden style="margin-top:.7rem">
+        <textarea id="ls-code" class="ta-feld" readonly style="min-height:5rem; font-family:var(--mono); font-size:.75rem"></textarea>
+        <div class="aktionen" style="margin-top:.4rem">
+          <button type="button" class="knopf zweit" onclick="tdKopieren('ls-code', this)">Code kopieren</button>
+          <button type="button" class="knopf zweit" onclick="lsCodeDatei()">Als Datei speichern</button>
+          <span class="leer" id="ls-echo" style="margin:0"></span>
+        </div>
+      </div>
+    </div>
+    <div class="karte">
+      <div class="augenbraue">Daten</div>
+      <div class="aktionen" style="margin-top:0">
+        <button class="knopf zweit" id="btn-vorschau" onclick="vorschauSchalten()" hidden>Alle Module freischalten</button>
+        <button class="knopf zweit" onclick="lernstandExport()">Lernstand exportieren</button>
+        <button class="knopf zweit" onclick="document.getElementById('lernstand-datei').click()">Lernstand importieren</button>
+        <input type="file" id="lernstand-datei" accept=".json,application/json" style="display:none" onchange="lernstandImport(event)">
+        <button class="knopf leise" onclick="lernstandLoeschen()">Lernstand zurücksetzen</button>
+        <button class="knopf leise" onclick="meldenOeffnen(true)">Rückmeldung zum Trainer</button>
+      </div>
+      <div id="melde-box-allg"></div>
+            <p class="leer" style="margin-top:.6rem">Exportieren speichert deinen Lernstand als Datei. Mit „Lernstand importieren“ machst du an einem anderen Gerät oder Browser genau dort weiter – der Lernstand dort wird dabei ersetzt.</p>
+      <p class="leer" id="lernstand-echo" style="margin-top:.4rem" role="status"></p>
+      <p class="leer" id="speicher-hinweis" style="margin-top:.6rem"></p>
+    </div>
+  </section>
+
+  <!-- ===================== AUFGABEN ===================== -->
+  <section id="ansicht-bank" class="ansicht">
+    <div class="karte">
+      <div class="augenbraue">Aufgabenbank</div>
+      <div class="ue-leiste">
+        <button type="button" class="knopf haupt" onclick="gesamtUebersicht()">Gesamtübersicht aller Aufgaben</button>
+        <label class="td-check"><input type="checkbox" id="ue-loesung" checked> mit Lösungen</label>
+        <label class="td-check"><input type="checkbox" id="ue-hilfen"> mit Hilfen</label>
+        <span class="leer" style="margin:0">Alle Aufgaben nach Modulen, mit den Zahlen der Übung – zum Durchsehen, Drucken oder als Datei.</span>
+      </div>
+      <div id="bank-liste"></div>
+      <div class="aktionen">
+        <button class="knopf zweit" onclick="document.getElementById('import-datei').click()">Aufgaben importieren (JSON)</button>
+        <button class="knopf zweit" onclick="bankExport()">Aufgabenbank exportieren</button>
+        <button class="knopf leise" onclick="bankZuruecksetzen()">Auf Standardbank zurücksetzen</button>
+        <input type="file" id="import-datei" accept=".json" style="display:none" onchange="importDatei(event)">
+      </div>
+      <p class="leer" id="import-echo"></p>
+    </div>
+    <div class="karte">
+      <div class="augenbraue">Datenformat</div>
+      <p style="font-size:.88rem; color:var(--tinte2); margin-top:0">
+        Beträge lassen sich fest eintragen (<code class="mono">betrag</code>) oder aus Werten ableiten
+        (<code class="mono">wert</code>). Werden Werte verwendet, erzeugt der Tutor bei der Wiedervorlage
+        automatisch Varianten mit anderen Zahlen. Musterlösungs-Dateien aus dem Lehrer-Dashboard
+        (<code class="mono">aufgabeId</code>, <code class="mono">text</code>, <code class="mono">soll</code>,
+        <code class="mono">haben</code>, <code class="mono">merke</code>) werden ebenfalls gelesen und landen ohne
+        Angabe von <code class="mono">modul</code> in Modul 6. <code class="mono">typ</code> bestimmt die
+        Eingabemaske: <code class="mono">buchungssatz</code> oder <code class="mono">bilanzwirkung</code>.
+      </p>
+      <pre class="schema" id="schema-beispiel"></pre>
+    </div>
+  </section>
+
+
+  <!-- ===================== TEST & DRUCK (Lehrkraft) ===================== -->
+  <section id="ansicht-test" class="ansicht">
+    <div class="karte">
+      <div class="augenbraue">1 · Aufgaben zusammenstellen</div>
+      <div class="td-raster">
+        <label class="td-feld" for="td-titel">Titel<input id="td-titel" type="text" value="Test Rechnungswesen" oninput="tdZusammenfassung()"></label>
+        <label class="td-feld" for="td-klasse">Klasse<input id="td-klasse" type="text" placeholder="z. B. IK1a" oninput="tdZusammenfassung()"></label>
+        <label class="td-feld" for="td-punkte">Punkte je Aufgabe anzeigen
+          <select id="td-punkte" onchange="tdZusammenfassung()">
+            <option value="nein">nein (empfohlen)</option>
+            <option value="ja">ja</option>
+          </select></label>
+        <label class="td-feld" for="td-zahlen">Zahlen im Online-Test
+          <select id="td-zahlen" onchange="tdZusammenfassung()">
+            <option value="gleich">gleich für alle</option>
+            <option value="individuell">je Azubi verschieden</option>
+          </select></label>
+      </div>
+      <p class="leer" style="margin:.6rem 0 0">Punkte je Aufgabe verraten bei Buchungssätzen die Anzahl der Zeilen (je Zeile 1 Punkt). Die Höchstpunktzahl des ganzen Tests steht immer da. Die Beträge im Test sind nie die aus den Übungen: „Gleich für alle“ gibt allen dieselben neuen Zahlen, „je Azubi verschieden“ jedem eigene, abhängig vom Namen. Prozentsätze, Kurse, Mengen und Laufzeiten bleiben; reine Theoriefragen bleiben gleich, die Antwortreihenfolge wird gemischt.</p>
+      <div id="td-module"></div>
+      <div class="aktionen"><span class="td-summe" id="td-summe"></span></div>
+    </div>
+
+    <div class="karte">
+      <div class="augenbraue">2 · Online-Test</div>
+      <div class="aktionen" style="margin-top:0">
+        <button type="button" class="knopf haupt td-braucht" onclick="tdCodeErzeugen()" disabled>Testcode erzeugen</button>
+      </div>
+      <div id="td-code-halter" class="td-code-halter" hidden>
+        <p style="margin:.8rem 0 .3rem; font-size:.88rem">Testcode für die Azubis (unter „Test schreiben“ einfügen):</p>
+        <textarea id="td-code" readonly></textarea>
+        <div class="td-zeile"><input type="text" id="td-link" readonly aria-label="Link zum Test"><button type="button" class="knopf zweit" onclick="tdKopieren('td-link', this)">Link kopieren</button><button type="button" class="knopf zweit" onclick="tdKopieren('td-code', this)">Code kopieren</button></div>
+        <p class="leer" id="td-link-hinweis"></p>
+      </div>
+    </div>
+
+    <div class="karte">
+      <div class="augenbraue">3 · Drucken</div>
+      <div class="td-zeile" style="margin-top:0">
+        <label class="td-check"><input type="checkbox" id="td-loesung" checked> Lösungsblatt anhängen</label>
+        <label class="td-check"><input type="checkbox" id="td-gruppen"> Test in Gruppen A und B</label>
+      </div>
+      <div class="aktionen">
+        <button type="button" class="knopf zweit td-braucht" onclick="druckUebung()" disabled>Übungsblatt drucken</button>
+        <button type="button" class="knopf zweit td-braucht" onclick="druckTest()" disabled>Test drucken</button>
+      </div>
+      <p class="leer">Übungsblatt: mit „Merke“ im Lösungsblatt. Test: mit Punkten je Aufgabe; Beide Gruppen erhalten neue Beträge, Gruppe B andere als Gruppe A. Ohne Gruppen hat der Druck dieselben Zahlen wie der Online-Test mit „gleich für alle“. Buchungssätze bekommen immer mindestens fünf Leerzeilen, damit die Anzahl der Konten nicht verraten wird.</p>
+      <p class="leer" id="td-druck-hinweis"></p>
+    </div>
+
+  </section>
+
+  <!-- ===================== AUSWERTEN (Lehrkraft) ===================== -->
+  <section id="ansicht-auswerten" class="ansicht">
+    <div class="karte">
+      <div class="augenbraue">Abgaben auswerten</div>
+      <p class="leer" id="ta-ls-hinweis" hidden style="margin:.2rem 0 0; font-size:.85rem">Auch <b>Lernstandscodes</b> (beginnen mit „L1.“) lassen sich hier einfügen – dann zeigt die Auswertung die Klassenübersicht: Problemaufgaben, Module und Lernende.</p>
+      <p style="margin:.4rem 0 .8rem; font-size:.9rem">Füge die Abgabecodes ein, die dir die Azubis geschickt haben – Reihenfolge egal, auch mitten in anderem Text (z. B. aus E-Mails oder einer Moodle-Übersicht kopiert): Die Codes werden herausgesucht. Der Test wird am Code erkannt.</p>
+      <label class="td-feld" for="ta-codes">Abgabecodes<textarea id="ta-codes" class="ta-feld" style="min-height:9rem"></textarea></label>
+      <div class="td-zeile" style="margin-top:.5rem; align-items:center; gap:.6rem; flex-wrap:wrap">
+        <label class="knopf leise" style="cursor:pointer">Abgaben aus Dateien laden …<input type="file" id="ta-dateien" multiple accept=".zip,.txt,.html,.htm,.csv,.json" style="display:none" onchange="taDateienLaden(this)"></label>
+        <span class="leer" id="ta-datei-echo" style="margin:0; font-size:.85rem">Moodle-Aufgabe mit Online-Text: „Alle Abgaben herunterladen“ und die ZIP-Datei hier laden – oder Textdateien.</span>
+      </div>
+      <details style="margin-top:.6rem"><summary class="leer" style="cursor:pointer">Ältere Abgabecodes? Dann zusätzlich den Testcode einfügen</summary>
+        <label class="td-feld" for="ta-testcode" style="margin-top:.4rem">Testcode<textarea id="ta-testcode" class="ta-feld" style="min-height:2.6rem"></textarea></label></details>
+      <div class="td-zeile" style="margin-top:.8rem">
+        <label class="td-feld" for="ta-schluessel" style="flex:0 1 22rem">Notenschlüssel
+          <select id="ta-schluessel" onchange="notenSchluesselSetzen()">
+            <option value="bw">Berufsschule BW: 6 − 5 × Punkte/Max</option>
+            <option value="ihk">IHK-Punkteschlüssel (92/81/67/50/30 %)</option>
+            <option value="eigen">Eigene Prozentgrenzen</option>
+          </select></label>
+        <div id="ta-grenzen" class="ta-grenzen" hidden>
+          <label>1 ab<input class="ta-grenze" inputmode="decimal" oninput="notenSchluesselSetzen()"> %</label>
+          <label>2 ab<input class="ta-grenze" inputmode="decimal" oninput="notenSchluesselSetzen()"> %</label>
+          <label>3 ab<input class="ta-grenze" inputmode="decimal" oninput="notenSchluesselSetzen()"> %</label>
+          <label>4 ab<input class="ta-grenze" inputmode="decimal" oninput="notenSchluesselSetzen()"> %</label>
+          <label>5 ab<input class="ta-grenze" inputmode="decimal" oninput="notenSchluesselSetzen()"> %</label>
+        </div>
+      </div>
+      <div class="aktionen"><button type="button" class="knopf haupt" onclick="taAuswerten()">Auswerten</button><span class="leer" id="ta-echo" style="margin:0"></span></div>
+      <div id="ta-ergebnis"></div>
+      <div id="ta-detail"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PRÜFUNGSTRAINING (Azubi) ===================== -->
+  <section id="ansicht-pruefung" class="ansicht">
+    <div class="karte">
+      <div class="augenbraue">Prüfungstraining</div>
+      <p style="margin-top:.4rem">Aufgaben aus den höheren Stufen – ohne Hilfen, ohne Musterlösung und ohne Prüfen zwischendurch. Wie in der Prüfung bekommst du die Auswertung erst am Ende. Die Beträge sind neu – keine Aufgabe hat dieselben Zahlen wie in den Übungen – und ändern sich bei jeder Runde.</p>
+      <div class="td-raster">
+        <label class="td-feld" for="pt-stufe">Schwierigkeit
+          <select id="pt-stufe" onchange="ptZeichnen()"><option value="23">Stufe 2 und 3</option><option value="3">nur Stufe 3</option></select></label>
+      </div>
+      <div class="pt-kopfzeile"><span class="augenbraue" style="margin:0">Themen</span>
+        <span class="pt-schnell"><button type="button" class="knopf leise" onclick="ptAlle(true)">alle</button><button type="button" class="knopf leise" onclick="ptAlle(false)">keine</button></span></div>
+      <div class="pt-module" id="pt-module"></div>
+      <div class="pt-mengen">
+        <div class="pt-menge">
+          <label class="pt-label" for="pt-anzahl">Rechnen und Buchen <span class="pt-hilfe">(Aufgaben)</span></label>
+          <div class="pt-mzeile"><input id="pt-anzahl" type="number" min="0" value="10" inputmode="numeric" oninput="ptSumme()">
+            <button type="button" class="knopf leise" id="pt-alle-knopf" onclick="ptAlleAufgaben()">alle nehmen</button></div>
+          <span class="pt-hilfe" id="pt-a-info"></span>
+        </div>
+        <div class="pt-menge">
+          <label class="pt-label" for="pt-theorie">Multiple Choice <span class="pt-hilfe">(Fragen)</span> <b class="pt-wert" id="pt-theorie-wert">0</b></label>
+          <div class="pt-mzeile"><input id="pt-theorie" type="range" min="0" max="0" step="1" value="0" oninput="ptTheorieGesetzt(this.value)">
+            <button type="button" class="knopf leise" id="pt-vorschlag" onclick="ptTheorieAuto()" title="1 Multiple-Choice-Frage je 3 Aufgaben">Vorschlag</button></div>
+          <span class="pt-hilfe" id="pt-t-info"></span>
+        </div>
+      </div>
+      <p class="leer" id="pt-summe" style="margin:.5rem 0 0"></p>
+      <div class="aktionen"><button type="button" class="knopf haupt" onclick="ptStarten()">Training starten</button><span class="leer" id="pt-echo" style="margin:0"></span></div>
+    </div>
+    <div class="karte" id="pt-verlauf"></div>
+  </section>
+
+  <!-- ===================== TEST SCHREIBEN (Azubi) ===================== -->
+  <section id="ansicht-testschreiben" class="ansicht">
+    <div class="karte" id="ts-eingang">
+      <div class="augenbraue">Test schreiben</div>
+      <label class="td-feld" for="ts-code">Testcode deiner Lehrkraft<textarea id="ts-code" class="ta-feld" style="min-height:3rem"></textarea></label>
+      <div class="aktionen"><button type="button" class="knopf haupt" onclick="tsCodeLaden(document.getElementById('ts-code').value)">Test öffnen</button><span class="leer" id="ts-echo" style="margin:0"></span></div>
+    </div>
+    <div id="ts-start" hidden>
+      <div class="karte">
+        <div class="augenbraue">Test</div>
+        <h2 id="ts-kopf-titel" style="margin:.2rem 0 .3rem"></h2>
+        <p class="leer" id="ts-kopf-info" style="margin:0 0 .8rem"></p>
+        <p class="ts-warnung" id="ts-warnung" hidden>Deine Aufgabenbank unterscheidet sich von der deiner Lehrkraft. Sag ihr bitte Bescheid, bevor du anfängst.</p>
+        <div class="td-zeile" id="ts-name-zeile"><input type="text" id="ts-name" placeholder="Vor- und Nachname" aria-label="Dein Name"><button type="button" class="knopf haupt" id="ts-start-knopf" onclick="tsStarten()">Test beginnen</button></div>
+        <p class="leer" id="ts-name-echo"></p>
+      </div>
+      <div id="ts-aufgaben"></div>
+      <div class="karte" id="ts-abgabe" hidden>
+        <div class="aktionen" style="margin-top:0">
+          <button type="button" class="knopf haupt" id="ts-abgeben-knopf" onclick="tsAbgebenFragen()">Test abgeben</button>
+          <span id="ts-bestaetigen" hidden><span id="ts-bestaetigen-text">Wirklich abgeben? Danach kannst du nichts mehr ändern.</span>
+            <button type="button" class="knopf haupt" onclick="tsAbgeben()">Ja, abgeben</button>
+            <button type="button" class="knopf leise" onclick="tsAbgebenAbbrechen()">Weiter bearbeiten</button></span>
+        </div>
+        <div id="pt-ergebnis" hidden></div>
+        <div id="ts-fertig" hidden>
+          <p><b>Abgegeben.</b> Kopiere deinen Abgabecode und gib ihn deiner Lehrkraft (z. B. über Moodle). Ohne diesen Code ist der Test nicht abgegeben.</p>
+          <textarea id="ts-abgabecode" class="ta-feld" readonly></textarea>
+          <div class="aktionen"><button type="button" class="knopf zweit" onclick="tdKopieren('ts-abgabecode', this)">Abgabecode kopieren</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="fuss">Lernstand liegt lokal im Browser. Kein Server, keine Übertragung.</p>
+</main>
+
+<div id="druckbereich" aria-hidden="true"></div>
+
+<script src="../kern/pool-labor.js"></script>
+<script src="../daten/aufgaben-bl.js"></script>
+<script src="../kern/pool-kern.js"></script>
+<script>(function(){
+  var a = document.querySelector('.zur-uebersicht'); if (!a) return;
+  var ziel = null;
+  try { ziel = localStorage.getItem('ik-startseite'); } catch(e) {}
+  if (ziel) { try { var u = new URL(ziel, location.href); if (u.origin === location.origin) a.href = u.href; else ziel = null; } catch(e) { ziel = null; } }
+  a.addEventListener('click', function(ev){
+    if (ziel || !/^https?:$/.test(location.protocol)) return;
+    ev.preventDefault();   // online ohne gespeicherte Übersicht: IK-Start.html, sonst der Ordner (index.html)
+    fetch('IK-Start.html', {method:'HEAD'}).then(function(r){ location.href = r.ok ? 'IK-Start.html' : './'; }, function(){ location.href = './'; });
+  });
+})();</script>
+</body>
+</html>
